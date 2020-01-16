@@ -20,7 +20,7 @@ def main():
     board = Arduino('/dev/ttyUSB0')
 
     mainApp = App(session, reader, board)
-    mainApp.start()
+    return mainApp.run()
 
 
 if __name__ == "__main__":

@@ -2,14 +2,14 @@
 from sqlalchemy import Column, String, Integer, Boolean, Date, ForeignKey
 from sqlalchemy.orm import relationship
 
-from db import Base
+from db.db import Base
 import datetime
 
 class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    card = Column(String(120), unique=True)
+    card = Column(Integer, unique=True)
     flower_id = Column(Integer)
 
     flower = relationship("Flower")

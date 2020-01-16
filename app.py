@@ -24,17 +24,26 @@ class App:
             self.stop()
             raise
 
-    def start(self):
-        return programLoop()
+    def run(self):
+        return self.programLoop()
 
     def stop(self):
         GPIO.cleanup()
         self.board
-        print('Bye bye')
+        print('Bye bye :)')
 
 
+    def cardScan(self, id):
+        port = self.board.digital[13].read()
 
-    def cardScan(id):
-        # find card in db
+        if port is None:
+            port = 0
+
+        if float(port) > 0.5:
+            new = 0
+        else:
+            new = 1
+        
+        self.board.digital[13].write(new)
 
         
