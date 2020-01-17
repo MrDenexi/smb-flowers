@@ -2,7 +2,7 @@
 from sqlalchemy import Column, String, Integer, Boolean, Date, ForeignKey
 from sqlalchemy.orm import relationship
 
-from db.db import Base
+from db import Base
 import datetime
 
 class User(Base):
@@ -10,7 +10,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     card = Column(Integer, unique=True)
-    flower_id = Column(Integer)
+    flower_id = Column(Integer, ForeignKey('flowers.id'))
 
     flower = relationship("Flower")
     accesses = relationship("Access", backref="users")
@@ -39,6 +39,12 @@ class Flower(Base):
     port = Column(Integer)
     active = Column(Boolean, default=True)
     priority = Column(Integer)
+
+    def __init__(self, port, active, priority):
+        self.port = port
+        self.active = active
+        self.priority = priority
+
 
     def __repr__(self):
          return '<Flower: %r %r>' % (self.id, self.port)

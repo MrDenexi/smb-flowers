@@ -7,7 +7,7 @@ __author__ = "Rens Moring & Jeroen van den Berg"
 __version__ = "0.1.0"
 __license__ = "MIT"
 
-from db.db import session_factory 
+from db.db import session_factory
 from pyfirmata import Arduino
 from mfrc522 import SimpleMFRC522
 
