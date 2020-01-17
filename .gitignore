@@ -1,4 +1,4 @@
-*.db
+database.sqlite3
 info
 
 # Byte-compiled / optimized / DLL files

@@ -12,6 +12,9 @@ class App:
         self.reader = reader
         self.board = board
 
+        # turn on led
+        self.board.digital[13].write(1)
+
     def programLoop(self):
         try:
             while True:
@@ -19,7 +22,7 @@ class App:
                 id, text = self.reader.read()
                 self.cardScan(id)
                 print("ID: %s\nText: %s" % (id,text))
-                sleep(5)
+                sleep(1)
         except KeyboardInterrupt:
             self.stop()
             raise
@@ -28,8 +31,13 @@ class App:
         return self.programLoop()
 
     def stop(self):
+        # rPi gpio cleanup
         GPIO.cleanup()
-        self.board
+        
+        # set arduino pins to low
+        for i in range(14):
+            self.board.digital[i].write(0)
+
         print('Bye bye :)')
 
 
