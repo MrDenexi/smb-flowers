@@ -27,7 +27,7 @@ class Access(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    accessed_at = Column(Date, default= lambda : datetime.datetime.now())
+    accessed_at = Column(DateTime, default= lambda : datetime.datetime.now())
 
     def __init__(self, user_id):
         self.user_id = user_id

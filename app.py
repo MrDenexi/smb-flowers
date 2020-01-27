@@ -1,8 +1,10 @@
 import sys
 from time import sleep
-from datetime import datetime
+from datetime import datetime, timedelta
 from random import randint, choice
+
 import asyncio
+import concurrent.futures
 
 import RPi.GPIO as GPIO
 
@@ -26,23 +28,32 @@ class App:
 
         self.currentState = StandbyState(board, session)
 
+    def readCard(self):
+        return self.reader.read()
+
     async def readLoop(self):
+        loop = asyncio.get_running_loop()
+
         while True:
             print("Hold a tag near the reader")
-            id, text = await self.reader.read()
+
+            id, text = await loop.run_in_executor(None, self.readCard)
+
             print(id, text)
+            
             self.cardScan(id)
             await asyncio.sleep(3)
 
     async def stateLoop(self):
         while True:
+            print('begin state loop')
             currentState = self.currentState
             resultState = await currentState.run()
             
             # make resultState currentState if currentState did not change
             if self.currentState is currentState:
                 self.currentState = resultState
-        
+                print('state did not change')        
     
     async def main(self):
         try: 
@@ -79,9 +90,10 @@ class App:
         self.currentState = LoginState(self.board, self.session)
 
     def userRegister(self, card):
-        leastPopularFlowerId = self.session.query(User.flower_id, func.count(User.flower_id).label('total') ) \
+        leastPopularFlowerId = \
+        self.session.query(User, func.count(User.flower_id).label('total') ) \
             .options(joinedload(User.accesses)) \
-            .filter(User.accesses.time > datetime.today() - datetime.timedelta(30)) \
+            .filter(User.accesses.has(datetime('accessed_at') >  datetime.today() - timedelta(30))) \
             .group_by(User.flower_id) \
             .order_by('total ASC') \
             .first() \

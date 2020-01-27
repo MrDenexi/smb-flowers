@@ -1,6 +1,6 @@
 import random
 
-from arduino.State import State
+from arduino.state import State
 from db.models import Flower
 
 class StandbyState(State):
@@ -16,9 +16,9 @@ class StandbyState(State):
         self.openTime = 10
 
     async def run(self):
-        await self.openFlower(self.flowers[self.flowerIndex], self.board,  self.openTime)
+        await self.openFlower(self.flowers[self.flowerIndex], self.openTime)
         
-        if (self.flowerIndex == self.flowers.count() - 1):
+        if (self.flowerIndex == len(self.flowers) - 1):
             self.flowerIndex = 0
         else:
             self.flowerIndex = self.flowerIndex + 1

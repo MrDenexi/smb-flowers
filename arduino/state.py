@@ -11,11 +11,15 @@ class State:
         pass
 
     async def openFlower(self, flower, time): 
+        print('opening ', flower)
         pin = self.board.get_pin('d:%s:p' % flower.port)
         pin.mode = PWM
         pin.write(0.7)
         await asyncio.sleep(time)
         pin.write(0)
+        print('closing ', flower)
+
+
 
         
         
