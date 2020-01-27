@@ -30,6 +30,7 @@ class App:
         while True:
             print("Hold a tag near the reader")
             id, text = await self.reader.read()
+            print(id, text)
             self.cardScan(id)
             await asyncio.sleep(3)
 
@@ -74,7 +75,7 @@ class App:
     def userLogin(self, user):
         access = Access(user.id)
         self.session.add(access)
-        self.session.commit
+        self.session.commit()
         self.currentState = LoginState(self.board, self.session)
 
     def userRegister(self, card):
@@ -93,7 +94,7 @@ class App:
         newAccess = Access(newUser.id)
         self.session.add(newAccess)
 
-        self.session.commit
+        self.session.commit()
         
         self.currentState = RegisterState(self.board, self.session)
         
