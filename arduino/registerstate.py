@@ -7,10 +7,12 @@ from arduino.standbystate import StandbyState
 
 class RegisterState(State):
 
-    def __init__(self, board, session):
-        super().__init__(board,session)
+    def __init__(self, app, user):
+        super().__init__(app)
+
+        self.user = user
 
 
     async def run(self):
-        return StandbyState(board,session)
+        return StandbyState(app)
         

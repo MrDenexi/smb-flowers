@@ -5,10 +5,10 @@ from db.models import Flower
 
 class StandbyState(State):
 
-    def __init__(self, board, session):
-        super().__init__(board,session)
+    def __init__(self, app):
+        super().__init__(app)
 
-        flowers = session.query(Flower).all()
+        flowers = self.session().query(Flower).all()
         random.shuffle(flowers)
 
         self.flowers = flowers

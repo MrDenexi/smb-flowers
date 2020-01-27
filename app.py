@@ -22,11 +22,13 @@ from arduino.registerstate import RegisterState
 class App:
 
     def __init__(self, session, reader, board):
-        self.board = board
-        self.session = session
         self.reader = reader
 
-        self.currentState = StandbyState(board, session)
+        self.session = session
+        self.board = board
+        self.pins = {}
+
+        self.currentState = StandbyState(self)
 
     def readCard(self):
         return self.reader.read()
@@ -86,7 +88,7 @@ class App:
         access = Access(user.id)
         self.session.add(access)
         self.session.commit()
-        self.currentState = LoginState(self.board, self.session, user)
+        self.currentState = LoginState(self, user)
 
     def userRegister(self, card):
         leastPopularFlowerQuery = self.session.query(User, func.count(User.flower_id).label('total') ) \
@@ -112,5 +114,5 @@ class App:
 
         self.session.commit()
         
-        self.currentState = RegisterState(self.board, self.session)
+        self.currentState = RegisterState(self, user)
         
