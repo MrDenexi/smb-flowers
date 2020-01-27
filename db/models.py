@@ -1,8 +1,8 @@
 
-from sqlalchemy import Column, String, Integer, Boolean, Date, ForeignKey
+from sqlalchemy import Column, DateTime, String, Integer, Boolean, Date, ForeignKey
 from sqlalchemy.orm import relationship
 
-from db.db import Base
+from db import Base
 import datetime
 
 class User(Base):
@@ -27,7 +27,7 @@ class Access(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    accessed_at = Column(DateTime, default= lambda : datetime.datetime.now())
+    accessed_at = Column(DateTime, default=datetime.datetime.now)
 
     def __init__(self, user_id):
         self.user_id = user_id
