@@ -29,6 +29,9 @@ class Access(Base):
     user_id = Column(Integer, ForeignKey('users.id'))
     accessed_at = Column(Date, default= lambda : datetime.datetime.now())
 
+    def __init__(self, user_id):
+        self.user_id = user_id
+
     def __repr__(self):
          return '<Access: %r %r>' % (self.id, self.user_id)
 
@@ -44,7 +47,6 @@ class Flower(Base):
         self.port = port
         self.active = active
         self.priority = priority
-
 
     def __repr__(self):
          return '<Flower: %r %r>' % (self.id, self.port)

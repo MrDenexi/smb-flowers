@@ -10,6 +10,7 @@ __license__ = "MIT"
 from db.db import session_factory
 from pyfirmata import Arduino
 from mfrc522 import SimpleMFRC522
+import asyncio
 
 from app import App
 
@@ -20,9 +21,9 @@ def main():
     board = Arduino('/dev/ttyUSB0')
 
     mainApp = App(session, reader, board)
-    return mainApp.run()
+    asyncio.run(mainApp.main())
+
 
 
 if __name__ == "__main__":
-    """ This is executed when run from the command line """
     main()

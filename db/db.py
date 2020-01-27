@@ -10,8 +10,6 @@ db_session = scoped_session(sessionmaker(autocommit=False,
                                          bind=engine))
 
 Base = declarative_base()
-Base.query = db_session.query_property()
-
 
 def session_factory():
     # Base.metadata.create_all(engine)
@@ -21,13 +19,15 @@ def init_db():
     from models import User, Access, Flower, Base
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-    
+
+    session = session_factory()
 
     # add flowers
-    # flower = Flower(12, True, 1)
-    # db_session.add(flower)
-    # db_session.commit()
-    
+    for count, port in enumerate([3,5,6,9,10,11]):
+        flower = Flower(port, True, count)
+        session.add(flower)
+
+    session.commit()
 
 
 if __name__ == "__main__":
