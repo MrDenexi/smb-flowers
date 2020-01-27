@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO
 
 import pyfirmata
 
-from sqlalchemy import func
+from sqlalchemy import func, text
 from sqlalchemy.orm import joinedload
 
 from db.models import User, Access, Flower
@@ -46,7 +46,6 @@ class App:
 
     async def stateLoop(self):
         while True:
-            print('begin state loop')
             currentState = self.currentState
             resultState = await currentState.run()
             
@@ -87,19 +86,24 @@ class App:
         access = Access(user.id)
         self.session.add(access)
         self.session.commit()
-        self.currentState = LoginState(self.board, self.session)
+        self.currentState = LoginState(self.board, self.session, user)
 
     def userRegister(self, card):
-        leastPopularFlowerId = \
-        self.session.query(User, func.count(User.flower_id).label('total') ) \
+        leastPopularFlowerQuery = self.session.query(User, func.count(User.flower_id).label('total') ) \
             .options(joinedload(User.accesses)) \
-            .filter(User.accesses.has(datetime('accessed_at') >  datetime.today() - timedelta(30))) \
+            .filter(Access.accessed_at > (datetime.today() - timedelta(30))) \
             .group_by(User.flower_id) \
-            .order_by('total ASC') \
-            .first() \
-            .flower_id
-        leastPopularFlower = Flower.get(leastPopularFlowerId)
-
+            .order_by(text('total asc')) \
+            .first()
+        
+        if leastPopularFlowerQuery is None:
+            print('least popular flower query still none :(')
+            leastPopularFlower = self.session.query(Flower).first()
+        else:
+            print('yay not none')
+            leastPopularFlowerId = leastPopularFlowerQuery.User.flower_id
+            leastPopularFlower = self.session.query(Flower).get(leastPopularFlowerId)
+       
         newUser = User(card, leastPopularFlower)
         self.session.add(newUser)
 

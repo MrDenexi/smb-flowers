@@ -3,6 +3,8 @@ import random
 from arduino.state import State
 from db.models import Flower
 
+from arduino.standbystate import StandbyState
+
 class RegisterState(State):
 
     def __init__(self, board, session):
@@ -10,5 +12,5 @@ class RegisterState(State):
 
 
     async def run(self):
-        pass
+        return StandbyState(board,session)
         

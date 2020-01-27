@@ -7,6 +7,8 @@ class State:
         self.board = board
         self.session = session
 
+        print('created state ', self.__class__.__name__)
+
     def run(self, session, board):
         pass
 
