@@ -3,6 +3,7 @@ import random
 from arduino.state import State
 from db.models import Flower
 
+# default state when nothing is happening
 class StandbyState(State):
 
     def __init__(self, app):

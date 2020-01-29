@@ -5,6 +5,7 @@ from db.models import Flower
 
 from arduino.standbystate import StandbyState
 
+# state when a new card (or user) is detected
 class RegisterState(State):
 
     def __init__(self, app, user):
@@ -14,5 +15,5 @@ class RegisterState(State):
 
 
     async def run(self):
-        return StandbyState(app)
+        return StandbyState(self.app)
         
