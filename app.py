@@ -47,7 +47,7 @@ class App:
 
             # await blocking readCard code in parallel thread
             id, text = await loop.run_in_executor(None, self.readCard)
-
+    
             print(id, text)
             
             # go to card scan flow using card id

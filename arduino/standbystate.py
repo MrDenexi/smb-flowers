@@ -1,4 +1,5 @@
 import random
+import asyncio
 
 from arduino.state import State
 from db.models import Flower
@@ -14,7 +15,7 @@ class StandbyState(State):
 
         self.flowers = flowers
         self.flowerIndex = 0
-        self.openTime = 10
+        self.openTime = 5
 
     async def run(self):
         await self.openFlower(self.flowers[self.flowerIndex], self.openTime)
@@ -23,5 +24,7 @@ class StandbyState(State):
             self.flowerIndex = 0
         else:
             self.flowerIndex = self.flowerIndex + 1
+        
+        await asyncio.sleep(5)
 
         return self

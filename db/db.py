@@ -25,7 +25,7 @@ def init_db():
     session = session_factory()
 
     # add flowers
-    for count, port in enumerate([3,5,6,9,10,11]):
+    for count, port in enumerate([3,5,6]):
         flower = Flower(port, True, count)
         session.add(flower)
 
