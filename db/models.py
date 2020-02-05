@@ -2,7 +2,7 @@
 from sqlalchemy import Column, DateTime, String, Integer, Boolean, Date, ForeignKey
 from sqlalchemy.orm import relationship
 
-from db import Base
+from db.db import Base
 import datetime
 
 # user model 
@@ -19,7 +19,7 @@ class User(Base):
     flower = relationship("Flower")
 
     # couple accesses (or logins)
-    accesses = relationship("Access", backref="users")
+    accesses = relationship("Access", backref="user")
 
     def __init__(self, card, flower):
         self.card = card

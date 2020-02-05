@@ -11,17 +11,18 @@ import RPi.GPIO as GPIO
 import pyfirmata
 
 from sqlalchemy import func, text
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, configure_mappers
 
 from db.models import User, Access, Flower
 from arduino.standbystate import StandbyState
 from arduino.loginstate import LoginState
 from arduino.registerstate import RegisterState
 
-# main app where all the cool stuff happens
+# main app where all the cool stuff happens 
 class App:
 
     def __init__(self, session, reader, board):
+        configure_mappers()
 
         # setting variables
         self.reader = reader
@@ -116,29 +117,46 @@ class App:
 
     # user register flow (existing user)
     def userRegister(self, card):
-
         # find the least popular flower
         # using least amount of accesses of the last 30 days
-        leastPopularFlowerQuery = self.session.query(User, func.count(User.flower_id).label('total') ) \
-            .options(joinedload(User.accesses)) \
+        leastPopular = self.session.query(Access, User.flower_id, func.count(User.id).label('total')) \
+            .options(joinedload(Access.user)) \
             .filter(Access.accessed_at > (datetime.today() - timedelta(30))) \
             .group_by(User.flower_id) \
             .order_by(text('total asc')) \
-            .first()
+            .all()  
         
-        if leastPopularFlowerQuery is None:
-            # no flower found, just do the first
-            print('least popular flower query still none :(')
-            leastPopularFlower = self.session.query(Flower).first()
+        print('leastPopular', leastPopular)
+        
+        # get all flowers
+        allFlowers = self.session.query(Flower).all()        
+
+        # get another flower if not all are accessed
+        if len(leastPopular) < len(allFlowers):
+            print('not all flowers are set')
+
+            accessedFlowersIds = []
+            for access, flowerId, amount in leastPopular:
+                accessedFlowersIds.append(flowerId)
+
+            # only one flower accessed, pick another one
+            leastPopularFlower = self.session.query(Flower) \
+                .filter(Flower.id.notin_(accessedFlowersIds)) \
+                .first()    
+            
         else:
+            print('more flowers')
             # set least popular flower
-            print('yay there is a new')
-            leastPopularFlowerId = leastPopularFlowerQuery.User.flower_id
+            leastPopularFlowerId = leastPopular[0][1]
             leastPopularFlower = self.session.query(Flower).get(leastPopularFlowerId)
+            
        
         # create a new user, with card and flower
         newUser = User(card, leastPopularFlower)
         self.session.add(newUser)
+
+        # commit new user
+        self.session.commit()
 
         # add an access for this user
         newAccess = Access(newUser.id)

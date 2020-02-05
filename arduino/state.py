@@ -48,7 +48,7 @@ class State:
         pin = self.getPin(flower.port)
 
         # write pwm to open flower
-        pin.write(0.7)
+        pin.write(0.95)
 
         # sleep for given amount of time
         await asyncio.sleep(time)
