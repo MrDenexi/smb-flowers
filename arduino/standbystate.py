@@ -27,7 +27,7 @@ class StandbyState(State):
             currentAccess = random.choice(self.accesses)
             currentFlower = currentAccess.user.flower
 
-        await self.openFlower(currentFlower, 5)
+        await self.openFlower(currentFlower, 7)
 
         await asyncio.sleep(2.5)
         

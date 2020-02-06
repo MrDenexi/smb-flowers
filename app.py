@@ -40,7 +40,8 @@ class App:
         return self.reader.read()
 
     # asynchronous loop
-    async def readLoop(self):
+    async def readLoop(self, task_state):
+        
         loop = asyncio.get_running_loop()
 
         while True:
@@ -48,6 +49,7 @@ class App:
 
             # await blocking readCard code in parallel thread
             id, text = await loop.run_in_executor(None, self.readCard)
+            task_state.cancel()
     
             print(id, text)
             
@@ -56,6 +58,8 @@ class App:
 
             # sleep to prevent duplicate scans
             await asyncio.sleep(3)
+
+            return self.currentState
 
     # main state loop
     async def stateLoop(self):
@@ -72,14 +76,19 @@ class App:
     
     # gather read loop and state loop
     async def main(self):
-        try: 
-            await asyncio.gather(
-                self.readLoop(),
-                self.stateLoop()
-            )
+        try:
+            while True:
+                task_state = asyncio.Task(self.stateLoop())
+                task_read = asyncio.Task(self.readLoop(task_state))
+                await asyncio.gather(
+                    task_state,
+                    task_read
+                )               
         except:
             # nice cleanup on error
             self.stop()
+            # start again
+            await self.main()
             raise
 
     # oh no everything is wrong stop this shit
