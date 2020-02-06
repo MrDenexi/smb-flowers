@@ -19,7 +19,7 @@ class StandbyState(State):
 
     async def run(self):
         if len(self.accesses) == 0:
-            allFlowers = self.session().query(Flowers).all()
+            allFlowers = self.session().query(Flower).all()
             currentFlower = random.choice(allFlowers)
         else:
             currentAccess = random.choice(self.accesses)
