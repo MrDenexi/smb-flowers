@@ -27,6 +27,6 @@ class StandbyState(State):
 
         await self.openFlower(currentFlower, random.randrange(7))
         
-        await asyncio.sleep(3)
+        await asyncio.sleep(random.randrange(5,20))
 
         return self

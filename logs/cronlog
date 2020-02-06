@@ -1,44 +1,31 @@
 created state  StandbyState
-2020-02-05 18:53:20,937 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
-2020-02-05 18:53:20,938 INFO sqlalchemy.engine.base.Engine ()
-2020-02-05 18:53:20,961 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
-2020-02-05 18:53:20,961 INFO sqlalchemy.engine.base.Engine ()
-2020-02-05 18:53:20,964 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
-2020-02-05 18:53:20,967 INFO sqlalchemy.engine.base.Engine SELECT accesses.id AS accesses_id, accesses.user_id AS accesses_user_id, accesses.accessed_at AS accesses_accessed_at 
+2020-02-06 09:17:26,131 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
+2020-02-06 09:17:26,131 INFO sqlalchemy.engine.base.Engine ()
+2020-02-06 09:17:26,135 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
+2020-02-06 09:17:26,136 INFO sqlalchemy.engine.base.Engine ()
+2020-02-06 09:17:26,138 INFO sqlalchemy.engine.base.Engine BEGIN (implicit)
+2020-02-06 09:17:26,141 INFO sqlalchemy.engine.base.Engine SELECT accesses.id AS accesses_id, accesses.user_id AS accesses_user_id, accesses.accessed_at AS accesses_accessed_at 
 FROM accesses 
 WHERE accesses.accessed_at > ? ORDER BY accesses.accessed_at DESC
-2020-02-05 18:53:20,968 INFO sqlalchemy.engine.base.Engine ('2020-02-05 17:53:20.900705',)
+2020-02-06 09:17:26,141 INFO sqlalchemy.engine.base.Engine ('2020-02-06 08:17:26.095258',)
 Hold a tag near the reader
-2020-02-05 18:53:20,989 INFO sqlalchemy.engine.base.Engine SELECT users.id AS users_id, users.card AS users_card, users.flower_id AS users_flower_id 
+2020-02-06 09:17:26,162 INFO sqlalchemy.engine.base.Engine SELECT users.id AS users_id, users.card AS users_card, users.flower_id AS users_flower_id 
 FROM users 
 WHERE users.id = ?
-2020-02-05 18:53:20,989 INFO sqlalchemy.engine.base.Engine (4,)
-2020-02-05 18:53:21,002 INFO sqlalchemy.engine.base.Engine SELECT flowers.id AS flowers_id, flowers.port AS flowers_port, flowers.active AS flowers_active, flowers.priority AS flowers_priority 
+2020-02-06 09:17:26,162 INFO sqlalchemy.engine.base.Engine (3,)
+2020-02-06 09:17:26,174 INFO sqlalchemy.engine.base.Engine SELECT flowers.id AS flowers_id, flowers.port AS flowers_port, flowers.active AS flowers_active, flowers.priority AS flowers_priority 
 FROM flowers 
 WHERE flowers.id = ?
-2020-02-05 18:53:21,002 INFO sqlalchemy.engine.base.Engine (1,)
-opening  <Flower: 1 3>
-closing  <Flower: 1 3>
+2020-02-06 09:17:26,175 INFO sqlalchemy.engine.base.Engine (3,)
+opening  <Flower: 3 6>
+closing  <Flower: 3 6>
 state did not change
-2020-02-05 18:53:29,013 INFO sqlalchemy.engine.base.Engine SELECT users.id AS users_id, users.card AS users_card, users.flower_id AS users_flower_id 
+2020-02-06 09:17:34,185 INFO sqlalchemy.engine.base.Engine SELECT users.id AS users_id, users.card AS users_card, users.flower_id AS users_flower_id 
 FROM users 
 WHERE users.id = ?
-2020-02-05 18:53:29,013 INFO sqlalchemy.engine.base.Engine (2,)
-2020-02-05 18:53:29,016 INFO sqlalchemy.engine.base.Engine SELECT flowers.id AS flowers_id, flowers.port AS flowers_port, flowers.active AS flowers_active, flowers.priority AS flowers_priority 
+2020-02-06 09:17:34,185 INFO sqlalchemy.engine.base.Engine (2,)
+2020-02-06 09:17:34,187 INFO sqlalchemy.engine.base.Engine SELECT flowers.id AS flowers_id, flowers.port AS flowers_port, flowers.active AS flowers_active, flowers.priority AS flowers_priority 
 FROM flowers 
 WHERE flowers.id = ?
-2020-02-05 18:53:29,016 INFO sqlalchemy.engine.base.Engine (2,)
-opening  <Flower: 2 5>
-closing  <Flower: 2 5>
-state did not change
-opening  <Flower: 2 5>
-closing  <Flower: 2 5>
-state did not change
-opening  <Flower: 2 5>
-closing  <Flower: 2 5>
-state did not change
-2020-02-06 09:09:24,127 INFO sqlalchemy.engine.base.Engine SELECT users.id AS users_id, users.card AS users_card, users.flower_id AS users_flower_id 
-FROM users 
-WHERE users.id = ?
-2020-02-06 09:09:24,127 INFO sqlalchemy.engine.base.Engine (1,)
+2020-02-06 09:17:34,188 INFO sqlalchemy.engine.base.Engine (2,)
 Terminated
