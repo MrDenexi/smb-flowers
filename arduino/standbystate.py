@@ -18,6 +18,8 @@ class StandbyState(State):
             .all()  
 
     async def run(self):
+        await asyncio.sleep(5)
+
         if len(self.accesses) == 0:
             allFlowers = self.session().query(Flower).all()
             currentFlower = random.choice(allFlowers)
@@ -25,8 +27,6 @@ class StandbyState(State):
             currentAccess = random.choice(self.accesses)
             currentFlower = currentAccess.user.flower
 
-        await self.openFlower(currentFlower, random.randrange(7))
+        await self.openFlower(currentFlower, 5)
         
-        await asyncio.sleep(random.randrange(5,20))
-
         return self
