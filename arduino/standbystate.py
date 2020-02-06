@@ -18,7 +18,7 @@ class StandbyState(State):
             .all()  
 
     async def run(self):
-        await asyncio.sleep(5)
+        await asyncio.sleep(2.5)
 
         if len(self.accesses) == 0:
             allFlowers = self.session().query(Flower).all()
@@ -28,5 +28,7 @@ class StandbyState(State):
             currentFlower = currentAccess.user.flower
 
         await self.openFlower(currentFlower, 5)
+
+        await asyncio.sleep(2.5)
         
         return self
